@@ -179,7 +179,7 @@ class Queue2<T> {
 
 extension BinaryTreeNode {
     func breadthFirstTraversal(visit: (BinaryTreeNode) -> ()) {
-        var queue = Queue2<BinaryTreeNode>()
+        let queue = Queue2<BinaryTreeNode>()
         visit(self) // root = 1 binarytreenode.val = 1
         queue.enqueue(self) // [1]
         
@@ -208,7 +208,6 @@ extension BinaryTreeNode {
         
     }
     func postOrderTraversal(visit: (BinaryTreeNode)-> ()) {
-        
         leftBranch?.preOrderTraversal(visit: visit)
         rightBranch?.preOrderTraversal(visit: visit)
         visit(self)
@@ -247,7 +246,7 @@ tree.postOrderTraversal { (branch) in
 
 //Maximum Depth of Binary Tree
 func maxDepth(_ root: TreeNode?) -> Int {
-   //first need to traverse through the treenode
+    //first need to traverse through the treenode
     guard let root = root else {
         return 0
     }
@@ -264,3 +263,65 @@ tree3.right = right
 right.left = TreeNode(15)
 right.right = TreeNode(7)
 maxDepth(tree3) // 3
+
+//https://leetcode.com/problems/path-sum/
+func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
+    let leftBranch = root?.left
+    let rightBranch = root?.right
+    var treeSum = Int()
+    if let rootVal = root?.val {
+        treeSum += rootVal // 5
+    }
+    
+    while leftBranch != nil || rightBranch != nil {
+        
+        if var leftBranch = leftBranch {
+            if leftBranch.val + treeSum < sum {
+                treeSum += leftBranch.val // 5 + 4
+                
+                if let left = leftBranch.left {
+                    leftBranch = left //11
+                } else if let right = leftBranch.right {
+                    leftBranch = right//nil
+                }
+                
+            }
+        } else if var rightBranch = rightBranch {
+            if rightBranch.val + treeSum < sum {
+                treeSum += rightBranch.val // 5 + 8
+                
+                if let left = rightBranch.left {
+                    rightBranch = left //13
+                } else if let right = rightBranch.right {
+                    rightBranch = right //4
+                }
+            }
+        }
+
+    }
+    
+    return treeSum == sum
+    
+}
+var sumNode1 = TreeNode(5)
+var sumNode2 = TreeNode(4)
+var sumNode3 = TreeNode(11)
+var sumNode4 = TreeNode(7)
+var sumNode5 = TreeNode(2)
+
+var sumNode6 = TreeNode(8)
+var sumNode7 = TreeNode(13)
+var sumNode8 = TreeNode(4)
+var sumNode9 = TreeNode(1)
+
+sumNode1.left = sumNode2
+sumNode1.right = sumNode6
+sumNode2.left = sumNode3
+sumNode3.left = sumNode4
+sumNode3.right = sumNode5
+
+sumNode6.left = sumNode7
+sumNode6.right = sumNode8
+sumNode8.right = sumNode9
+
+hasPathSum(sumNode1, 22)
