@@ -5,16 +5,13 @@ import UIKit
 // input = [8,1,2,2,3]
 // output = [4,0,1,1,3] ---> 4 nums are smaller than 8, 0 nums are smaller than 1, etc
 func smallerNumbersThanCurrent(_ nums: [Int]) -> [Int] {
-    var resultsArray = [Int]()
-    var numsCopy = nums
-    var count = 0
+    var results = [Int]()
+    var numCopy = nums
     var index = 0
-    
-
-    
+    var count = 0
     
     
-    return resultsArray
+    return results
 }
 func makeDictionary(_ nums: [Int]) -> [Int: Int] {
     var dict = [Int: Int]()
