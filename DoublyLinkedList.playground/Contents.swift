@@ -70,19 +70,32 @@ class DoublyLinkedList {
         //3. check if list has more than 1 value
         var firstNode = first
         guard firstNode != nil else {
+            //1.
             return
         }
         guard let next = firstNode?.next else {
+            //2.
             firstNode = nil
             return
         }
-        
+        //3.
         next.previous = nil
         firstNode = next
         head = next
     }
-    //TODO3: delete tail
-    func deleteTail(tail: DLNode) {
+    //delete tail
+    func deleteTail(_ last: DLNode?) {
+        var lastNode = last
+        guard lastNode != nil else {
+            return
+        }
+        guard let previous = lastNode?.previous else {
+            lastNode = nil
+            return
+        }
+        previous.next = nil
+        lastNode = previous
+        tail = previous
         
     }
     //TODO4: insert value after some node
@@ -128,7 +141,13 @@ example("prepend") {
     list.prepend(3)
     list.printForward()
 }
-example("remove head") {
+example("delete head") {
+    list.printForward()
     list.deleteHead(list.head)
+    list.printForward()
+}
+example("delete tail") {
+    list.printForward()
+    list.deleteTail(list.tail)
     list.printForward()
 }
