@@ -17,6 +17,7 @@ class DLNode {
     var next: DLNode?
     weak var previous: DLNode? //to avoid strong retain cycles
     var value: Int
+    
     init(_ value: Int) {
         self.value = value
     }
@@ -99,10 +100,28 @@ class DoublyLinkedList {
         
     }
     //TODO4: insert value after some node
-    func insertNode(_ node: DLNode, value: Int){
+    func insertNode(_ node: DLNode?, value: Int){
         //ex: 10 -> 8 -> 3
         //insert(at: head.next, value: 4)
         //output: 10 -> 4 -> 8 -> 3
+        let newNode = DLNode(value)
+        //does the node exist
+        guard let currentNode = node else {
+            return
+        }
+        //does the node have a next value?
+        guard let next = currentNode.next else {
+            //if currentNode does not have a next, it means current node is the tail
+            currentNode.next = newNode
+            newNode.previous = currentNode
+            tail = newNode
+            return
+        }
+        //if there is a next node, assign accordingly
+        //need to reassign head/tail if currentNode.next = head/tail
+        currentNode.next = newNode
+        newNode.previous = currentNode
+        newNode.next = next
     }
     //TODO5: delete Node at given index
     func delete(atIndex: Int) {
@@ -150,4 +169,10 @@ example("delete tail") {
     list.printForward()
     list.deleteTail(list.tail)
     list.printForward()
+}
+example("insert") {
+    list.printForward()
+    list.insertNode(list.head?.next, value: 4)
+    list.printForward()
+    list.tail
 }
