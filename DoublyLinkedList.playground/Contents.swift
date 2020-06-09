@@ -148,24 +148,25 @@ class DoublyLinkedList {
             array.append(node.value)
             current = node.next
         }
-        for index in 0...array.count - 1 {
-            if index == array.count - 1 {
+        
+        current = head
+        
+        for _ in 0...array.count - 1 {
+            if atIndex == array.count - 1 {
                 deleteTail(tail)
-            } else if index == 0 {
+            } else if atIndex == 0 {
                 deleteHead(head)
-            } else {
-                current = head?.next
-                if current?.value == array[index] {
-                    guard let next = current?.next else {
-                        return
-                    }
-                    head?.next = next
-                    next.previous = head
-                } else {
-                    current = current?.next
-                }
+            } else if current?.value == array[atIndex] {
+                let next = current?.next
+                let previous = current?.previous
+                next?.previous = previous
+                previous?.next = next
             }
+            current = current?.next
         }
+    }
+    func helper(_ current: DLNode, index: Int) {
+        
     }
     
     func printForward() { //should print list only going forward
