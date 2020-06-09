@@ -99,8 +99,8 @@ class DoublyLinkedList {
         tail = previous
         
     }
-    //TODO4: insert value after some node
-    func insertNode(_ node: DLNode?, value: Int){
+    //insert value after some node
+    func insertNodeAfter(_ node: DLNode?, value: Int){
         //ex: 10 -> 8 -> 3
         //insert(at: head.next, value: 4)
         //output: 10 -> 4 -> 8 -> 3
@@ -123,9 +123,49 @@ class DoublyLinkedList {
         newNode.previous = currentNode
         newNode.next = next
     }
+    //insert value before some node
+    func interNodeBefore(_ node: DLNode?, value: Int) {
+        let newNode = DLNode(value)
+        guard let currentNode = node else {
+            return
+        }
+        guard let previous = currentNode.previous else {
+            currentNode.previous = newNode
+            newNode.next = currentNode
+            head = newNode
+            return
+        }
+        currentNode.previous = newNode
+        newNode.next = currentNode
+        newNode.previous = previous
+        previous.next = newNode
+    }
     //TODO5: delete Node at given index
     func delete(atIndex: Int) {
-        
+        var current = head
+        var array = [Int]()
+        while let node = current {
+            array.append(node.value)
+            current = node.next
+        }
+        for index in 0...array.count - 1 {
+            if index == array.count - 1 {
+                deleteTail(tail)
+            } else if index == 0 {
+                deleteHead(head)
+            } else {
+                current = head?.next
+                if current?.value == array[index] {
+                    guard let next = current?.next else {
+                        return
+                    }
+                    head?.next = next
+                    next.previous = head
+                } else {
+                    current = current?.next
+                }
+            }
+        }
     }
     
     func printForward() { //should print list only going forward
@@ -170,9 +210,19 @@ example("delete tail") {
     list.deleteTail(list.tail)
     list.printForward()
 }
-example("insert") {
+example("insert after node") {
     list.printForward()
-    list.insertNode(list.head?.next, value: 4)
+    list.insertNodeAfter(list.tail, value: 4)
     list.printForward()
     list.tail
+}
+example("insert before node") {
+    list.printForward()
+    list.interNodeBefore(list.head?.next, value: 15)
+    list.printForward()
+}
+example("delete from index") {
+    list.printForward()
+    list.delete(atIndex: 1)
+    list.printForward()
 }
