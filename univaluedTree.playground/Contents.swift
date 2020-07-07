@@ -19,11 +19,21 @@ public class TreeNode {
 
 func isUnivalTree(_ root: TreeNode?) -> Bool {
     // no root
-    guard let root = root else {return true}
     var valueSet: Set<Int> = []
-    root.inOrderTraversal { (node) in
-        valueSet.insert(node.val)
+    guard root != nil else {return true}
+//    root.inOrderTraversal { (node) in
+//        valueSet.insert(node.val)
+//    }
+    var current = root
+    valueSet.insert(current?.val ?? -1)
+    if let left = current?.left {
+        valueSet.insert(left.val)
+        
     }
+    if let right = current?.right {
+        
+    }
+    
     if valueSet.count > 1 {
         return false
     } else {
@@ -31,15 +41,33 @@ func isUnivalTree(_ root: TreeNode?) -> Bool {
     }
     
 }
-extension TreeNode {
-    func inOrderTraversal(visit: (TreeNode) -> ()) {
-        left?.inOrderTraversal(visit: visit)
-        visit(self)
-        right?.inOrderTraversal(visit: visit)
-    }
-}
 
-let root = TreeNode(1)
-root.left = TreeNode(1)
-root.right = TreeNode(2)
+//extension TreeNode {
+//    func inOrderTraversal(visit: (TreeNode) -> ()) {
+//        left?.inOrderTraversal(visit: visit)
+//        visit(self)
+//        right?.inOrderTraversal(visit: visit)
+//    }
+//}
+//func traverseTree(root: TreeNode) -> [TreeNode] {
+//    var results = [TreeNode]()
+//    results.append(root)
+//
+//
+//    if var left = root.left {
+//    results.append(left)
+//    traverseTree(root: left)
+//    }
+//    if let right = root.right {
+//    results.append(right)
+//    traverseTree(root: right)
+//    }
+//    return results
+//}
+
+let root = TreeNode(2)
+let right = TreeNode(2)
+let left = TreeNode(5)
+left.left = TreeNode(2)
+right.right = TreeNode(2)
 isUnivalTree(root)
