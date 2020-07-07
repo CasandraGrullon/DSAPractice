@@ -140,7 +140,7 @@ class DoublyLinkedList {
         newNode.previous = previous
         previous.next = newNode
     }
-    //TODO5: delete Node at given index
+    //delete Node at given index
     func delete(atIndex: Int) {
         var current = head
         var array = [Int]()
@@ -148,9 +148,7 @@ class DoublyLinkedList {
             array.append(node.value)
             current = node.next
         }
-        
         current = head
-        
         for _ in 0...array.count - 1 {
             if atIndex == array.count - 1 {
                 deleteTail(tail)
@@ -164,9 +162,6 @@ class DoublyLinkedList {
             }
             current = current?.next
         }
-    }
-    func helper(_ current: DLNode, index: Int) {
-        
     }
     
     func printForward() { //should print list only going forward

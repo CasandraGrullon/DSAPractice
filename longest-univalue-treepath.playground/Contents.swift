@@ -30,10 +30,19 @@ class ListNode {
 
 class Solution {
     func longestUnivaluePath(_ root: TreeNode?) -> Int {
-        var current = root
+        //1. check if root is empty
+        guard let _ = root else { return -100}
+        let root = root
         
-        while current != nil {
+        //2. check if root has left & right branches
+        guard root?.right != nil && root?.left != nil else {
+            return 0
+        }
+        
+        while var right = root?.right {
             
         }
+        
+        
     }
 }
