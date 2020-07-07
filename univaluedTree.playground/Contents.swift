@@ -16,22 +16,21 @@ public class TreeNode {
         self.right = right
     }
 }
-
-func isUnivalTree(_ root: TreeNode?) -> Bool {
-    // no root
-    var valueSet: Set<Int> = []
-    guard root != nil else {return true}
-//    root.inOrderTraversal { (node) in
-//        valueSet.insert(node.val)
-//    }
-    var current = root
-    valueSet.insert(current?.val ?? -1)
-    if let left = current?.left {
-        valueSet.insert(left.val)
-        
+//Method using extension function
+extension TreeNode {
+    func inOrderTraversal(visit: (TreeNode) -> ()) {
+        left?.inOrderTraversal(visit: visit)
+        visit(self)
+        right?.inOrderTraversal(visit: visit)
     }
-    if let right = current?.right {
-        
+}
+func isUnivalTree1(_ root: TreeNode?) -> Bool {
+    var valueSet: Set<Int> = []
+    
+    guard let root = root else {return true}
+    
+    root.inOrderTraversal { (node) in
+        valueSet.insert(node.val)
     }
     
     if valueSet.count > 1 {
@@ -39,35 +38,28 @@ func isUnivalTree(_ root: TreeNode?) -> Bool {
     } else {
         return true
     }
+}
+//LeetCode solution
+func isUnivalTree(_ root: TreeNode?) -> Bool {
+    guard let root = root else {return true}
+
+    return checkValues(root, value: root.val)
+}
+func checkValues(_ root: TreeNode?, value: Int) -> Bool {
+    guard let root = root else {return true}
     
+    if root.val != value {
+        return false
+    }
+    
+    return checkValues(root.left, value: root.val) && checkValues(root.right, value: root.val)
 }
 
-//extension TreeNode {
-//    func inOrderTraversal(visit: (TreeNode) -> ()) {
-//        left?.inOrderTraversal(visit: visit)
-//        visit(self)
-//        right?.inOrderTraversal(visit: visit)
-//    }
-//}
-//func traverseTree(root: TreeNode) -> [TreeNode] {
-//    var results = [TreeNode]()
-//    results.append(root)
-//
-//
-//    if var left = root.left {
-//    results.append(left)
-//    traverseTree(root: left)
-//    }
-//    if let right = root.right {
-//    results.append(right)
-//    traverseTree(root: right)
-//    }
-//    return results
-//}
-
-let root = TreeNode(2)
-let right = TreeNode(2)
-let left = TreeNode(5)
-left.left = TreeNode(2)
-right.right = TreeNode(2)
+let root = TreeNode(9)
+let right = TreeNode(9)
+let left = TreeNode(9)
+root.left = left
+root.right = right
+left.left = TreeNode(9)
+right.right = TreeNode(6)
 isUnivalTree(root)
