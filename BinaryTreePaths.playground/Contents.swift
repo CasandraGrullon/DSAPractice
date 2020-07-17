@@ -30,32 +30,18 @@ public class TreeNode {
 func binaryTreePaths(_ root: TreeNode?) -> [String] {
     var results = [String]()
     //1. if root is empty
-    guard let root = root else {return [""]}
-    //2. if root does not have children
-    if let left = root.left, let right = root.right {
-        var leftResults = ["\(root.val)"]
-        leftResults.append(contentsOf: checkChild(left))
-        let leftjoined = leftResults.joined(separator: " -> ")
-        results.append(leftjoined)
-        
-        var rightResults = ["\(root.val)"]
-        rightResults.append(contentsOf: checkChild(right))
-        let rightjoined = rightResults.joined(separator: " -> ")
-        results.append(rightjoined)
-    } else if let left = root.left {
-        var leftResults = ["\(root.val)"]
-        leftResults.append(contentsOf: checkChild(left))
-        let leftjoined = leftResults.joined(separator: " -> ")
-        results.append(leftjoined)
-    } else if let right = root.right {
-        var rightResults = ["\(root.val)"]
-        rightResults.append(contentsOf: checkChild(right))
-        let rightjoined = rightResults.joined(separator: " -> ")
-        results.append(rightjoined)
-    } else {
-        results = ["\(root.val)"]
+    guard let root = root else {return []}
+    //2. if there are no children
+    if root.left == nil && root.right == nil {
+        return ["\(root.val)"]
     }
-    
+    //3. if there are children
+    if let left = root.left {
+        results.append(contentsOf: binaryTreePaths(left).map({"\(root.val)->\($0)"}))
+    }
+    if let right = root.right {
+        results.append(contentsOf: binaryTreePaths(right).map({"\(root.val)->\($0)"}))
+    }
     return results
 }
 func checkChild(_ root: TreeNode?) -> [String] {
@@ -65,18 +51,15 @@ func checkChild(_ root: TreeNode?) -> [String] {
         return [""]
     }
     
-    if let left = root.left, let right = root.right {
+    if let left = root.left {
         let leftResult = "\(root.val) -> \(left.val)"
         result.append(leftResult)
+    }
+    if let right = root.right {
         let rightResult = "\(root.val) -> \(right.val)"
         result.append(rightResult)
-    } else if let left = root.left {
-        let leftResult = "\(root.val) -> \(left.val)"
-        result.append(leftResult)
-    } else if let right = root.right {
-        let rightResult = "\(root.val) -> \(right.val)"
-        result.append(rightResult)
-    } else {
+    }
+    if root.left == nil && root.right == nil {
         result = ["\(root.val)"]
     }
     
@@ -85,8 +68,9 @@ func checkChild(_ root: TreeNode?) -> [String] {
 
 var root = TreeNode(1)
 var left = TreeNode(2)
-//var right = TreeNode(3)
+var right = TreeNode(3)
 root.left = left
-//root.right = right
+root.right = right
 left.right = TreeNode(5)
+left.left = TreeNode(6)
 print(binaryTreePaths(root))
