@@ -24,8 +24,10 @@ import UIKit
 
 func numMagicSquaresInside(_ grid: [[Int]]) -> Int {
     //var results = [Int]()
-    var matrix = [[Int]]()
-    var currentIndex = 0
+    var results = [Int]()
+    var count = 0
+    var totalSum = 0
+    let magicSum = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9
     
     //1. iterate through each subarray
     //2. append each unique number to array
@@ -34,16 +36,23 @@ func numMagicSquaresInside(_ grid: [[Int]]) -> Int {
     
     for array in grid {
         for number in array {
-            if matrix[currentIndex].contains(number) {
-                currentIndex += 1
-            } else {
-                matrix[currentIndex].append(number)
+            if !results.contains(number) {
+                results.append(number)
             }
         }
     }
     
-    return matrix.count
+    for number in results {
+        totalSum += number
+    }
+    if totalSum == magicSum {
+        count += 1
+    } else {
+        return 0
+    }
+    return count
 }
 
-let input = [[4,3,8,4,3,8],[9,5,1,9,5,1],[2,7,6,2,7,6]]
+let input = [[4,3,8,4],[9,5,1,9],[2,7,6,2]] // 1
 numMagicSquaresInside(input)
+let input2 = [[4,3,8,4,3,8],[9,5,1,9,5,1],[2,7,6,2,7,6]]//2
