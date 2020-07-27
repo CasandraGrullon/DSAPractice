@@ -30,29 +30,43 @@ public class ListNode {
 }
 
 func isPalindrome(_ head: ListNode?) -> Bool {
-    var reversed = reverseList(head)
-    var currentNode = head
-    var result = Bool()
-    while currentNode != nil {
-        if currentNode?.val == reversed?.val && currentNode?.next?.val == reversed?.next?.val{
-            result = true
+    var result: Set<Bool> = []
+    var current = head
+    
+    while current != nil {
+        let reversed = reverseList(current)
+        if current?.val == reversed?.val && current?.next?.val == reversed?.next?.val {
+            result.insert(true)
+            current = current?.next
         } else {
-            result = false
+            result.insert(false)
         }
     }
-    return result
+    if result.contains(false) {
+        return false
+    } else {
+        return true
+    }
 }
 func reverseList(_ head: ListNode?) -> ListNode? {
     var currentNode = head
-    var previousNode: ListNode?
     var nextNode: ListNode?
+    var prevNode: ListNode?
     
     while currentNode != nil {
         nextNode = currentNode?.next
-        currentNode?.next = previousNode
-        previousNode?.next = currentNode
+        currentNode?.next = prevNode
+        prevNode = currentNode
         currentNode = nextNode
     }
-    return previousNode
+    return prevNode
 }
+var head = ListNode(0)
+var next = ListNode(0)
+var nextNext = ListNode(2)
+var nextNextNext = ListNode(1)
+head.next = next
+//next.next = nextNext
+//nextNext.next = nextNextNext
 
+isPalindrome(head)
