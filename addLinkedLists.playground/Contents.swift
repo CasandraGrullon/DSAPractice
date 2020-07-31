@@ -16,7 +16,7 @@ public class ListNode {
     }
 }
 
-
+//Solution solves 1560 / 1563 test cases :(
 func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
     //1. convert lists to arrays -> [2,4,3], [5,6,4]
     //2. reverse arrays -> [3,4,2], [4,6,5]
