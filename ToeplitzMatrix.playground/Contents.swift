@@ -26,16 +26,40 @@ import UIKit
 //Explanation:
 //The diagonal "[1, 2]" has different elements.
 
+//431 / 482 test cases
 func isToeplitzMatrix(_ matrix: [[Int]]) -> Bool {
-    let matrixCount = matrix.count
-    if matrixCount == 0 {
+    if matrix.count == 0 {
         return true
     }
     
+    for (index, array) in matrix.enumerated() {
+        for (i, _) in array.enumerated() {
+            if diagnol(row: index, col: i, matrix: matrix) == false {
+                return false
+            }
+        }
+    }
+    return true
+}
+func diagnol(row: Int, col: Int, matrix: [[Int]]) -> Bool {
+    var row = row
+    var col = col
+    var num: Int?
     
-    
-    
-    
+    while row < matrix.count && col < matrix[0].count {
+        if let num = num {
+            if num != matrix[row][col] {
+                return false
+            }
+        } else {
+            num = matrix[row][col]
+            print(num!)
+        }
+        
+        row += 1
+        col += 1
+    }
+    return true
 }
 
 var matrix = [
@@ -44,3 +68,7 @@ var matrix = [
   [9,5,1,2]
 ]
 isToeplitzMatrix(matrix)
+
+var matrix2 =
+[[11,74,0,93],[40,11,74,7]] // false
+isToeplitzMatrix(matrix2)
