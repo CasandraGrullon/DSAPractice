@@ -35,80 +35,94 @@ func findMode(_ root: TreeNode?) -> [Int] {
         return []
     }
     var result = [Int]()
-    var treeArray = createArray(root)
+    var treeArray = [Int]()
     var freqDict = [Int: Int]()
     
+    if let value = root?.val {
+        treeArray.append(value)
+    }
     if let left = root?.left {
-        treeArray.append(contentsOf: createArray(left))
+        treeArray.append(contentsOf: makeArray(left))
     }
     if let right = root?.right {
-        treeArray.append(contentsOf: createArray(right))
+        treeArray.append(contentsOf: makeArray(right))
     }
     
     for num in treeArray {
-        print("num: \(num)")
         if let value = freqDict[num] {
             freqDict[num] = value + 1
         } else {
             freqDict[num] = 1
         }
     }
-    print("dict: \(freqDict)")
     let maxCount = Array(freqDict.values).max()!
     let keys = freqDict.filter {$0.value == maxCount}
-    print(keys)
     result.append(contentsOf: keys.keys)
-    
     return result
 }
-func createArray(_ root: TreeNode?) -> [Int] {
-    var array = [Int]()
-    if root != nil {
-        if let value = root?.val {
-            array.append(value)
-        }
+func makeArray(_ root: TreeNode?) -> [Int] {
+    var treeArray = [Int]()
+    if let value = root?.val {
+        treeArray.append(value)
     }
-    if let left = root?.left?.val {
-        array.append(left)
+    if let left = root?.left {
+        treeArray.append(left.val)
     }
-    if let right = root?.right?.val {
-        array.append(right)
+    if let right = root?.right {
+        treeArray.append(right.val)
     }
-    return array
+    return treeArray
 }
 //leet code solution
 func findMode2(_ root: TreeNode?) -> [Int] {
-    var dict: [Int:Int] = [:]
-    //5. create the dictionary
-    createFrequencyDictionary(root, dict: &dict)
+    var queue: [TreeNode?] = []
+    queue.append(root)
+    var dict: [Int: Int] = [:]
     
-    //6. if its an empty dict we know our root is empty
-    if dict.isEmpty { return [] }
-    
-    //7. max count is a built in function to grab the highest value in an array- in this case the highest value in the dictionary should be 2 (count not key)
-    let maxCount = Array(dict.values).max()!
-    //8. return the key where the value == max count
-    return Array(dict.keys).filter { dict[$0] == maxCount }
-}
-
-func createFrequencyDictionary(_ root: TreeNode?, dict: inout [Int:Int]) {
-    //1. make sure root is not nil if it is this function would return an empty dict
-    if root != nil {
-        //2. create a dictionary key of the root value and the value of its count
-        dict[root!.val, default: 0] += 1
-        //3. do the same for the left branch of the root using recursion
-        createFrequencyDictionary(root?.left, dict: &dict)
-        //4. and the right branch
-        createFrequencyDictionary(root?.right, dict: &dict)
+    //1. traverse through the queue
+    while !queue.isEmpty {
+        if let node = queue.removeFirst() {
+            
+            //2. populate dictionary
+            if let isPresent = dict[node.val] {
+                dict[node.val] = isPresent + 1
+            } else {
+                dict[node.val] = 1
+            }
+            //3. add left and right branches if they exist to the queue
+            if let left = node.left { queue.append(left) }
+            if let right = node.right { queue.append(right) }
+            //4. once the values run out, the queue ends
+        }
     }
+    //5. find the max value in the dict
+    let mode = dict.values.max()
+    var result: [Int] = []
+    //6. append max value to the result
+    for (key, value) in dict {
+        if value == mode {
+            result.append(key)
+        }
+    }
+    return result
 }
 var root = TreeNode(1)
 var left = TreeNode(2)
 var leftRight = TreeNode(2)
 root.left = left
 left.right = leftRight
-//findMode2(root)
+findMode2(root)
 findMode(root)
 var root2 = TreeNode(1)
 root2.left = TreeNode(2)
 findMode(root2)
+var root3 = TreeNode(2)
+var left3 = TreeNode(3)
+var leftLeft1 = TreeNode(4)
+var leftLeft2 = TreeNode(5)
+var leftLeft3 = TreeNode(6)
+root3.left = left3
+left3.left = leftLeft1
+leftLeft1.left = leftLeft2
+leftLeft2.left = leftLeft3
+findMode2(root3)
