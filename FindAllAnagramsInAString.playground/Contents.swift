@@ -26,7 +26,6 @@ func findAnagrams(_ s: String, _ p: String) -> [Int] {
     }
 
     let sArray = makeArray(s: s, count: p.count)
-    let pArray = p.map {$0}
     var results = [Int]()
     
     for (index, string) in sArray.enumerated() {
@@ -34,10 +33,6 @@ func findAnagrams(_ s: String, _ p: String) -> [Int] {
         if string.sorted() == p.sorted() {
             results.append(index)
         }
-//solution with a set worked for 33/36 test cases
-//        if set == setP {
-//            results.append(index)
-//        }
     }
     
     return results
