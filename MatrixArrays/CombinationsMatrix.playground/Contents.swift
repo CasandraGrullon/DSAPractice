@@ -14,5 +14,25 @@ import UIKit
 //  [1,4],
 //]
 func combine(_ n: Int, _ k: Int) -> [[Int]] {
+    var matrix = [[Int]]()
     
+    guard n > 0, k > 0, n >= k else {
+        return matrix
+    }
+    
+    var num = n
+    
+    while num > 0 {
+        if k == 1 {
+            matrix.append([num])
+        } else {
+            for number in combine(num-1, k-1) {
+                matrix.append([num] + number)
+                print(matrix)
+            }
+        }
+        num -= 1
+    }
+    return matrix
 }
+combine(4, 2)
