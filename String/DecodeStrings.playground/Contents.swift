@@ -22,11 +22,9 @@ func decodeString(_ s: String) -> String {
             if char.isNumber {
                 if let num = Int(String(char)) {
                     number = num
-                    print(number)
                 }
             } else if char.isLetter {
                 letter += String(char)
-                print(letter)
             }
         }
         newStrings.append(String(repeating: letter, count: number))
@@ -45,3 +43,66 @@ func createArray(char: Character, count: Int) -> [String] {
 }
 //decodeString("3[a]2[bc]")//"aaabcbc"
 decodeString("3[a2[c]]")//"accaccacc"
+//leetcode solution
+func decodeString2(_ s: String ) -> String {
+    var result: String = ""
+    let arr = Array(s)
+    // track "[","]"
+    var pstack: [Character] = []
+    // k values
+    var kstack: [Int] = []
+    // strings
+    var sstack: [String] = []
+    var start = 0
+    
+    while start < arr.count {
+        let elem = arr[start]
+        // generate full number and append to kstack
+        if elem >= "0" && elem <= "9" {
+            var v = 0
+            while arr[start] >= "0" && arr[start] <= "9", let k = Int(String(arr[start])) {
+                v *= 10
+                v += k
+                
+                start += 1
+            }
+            start -= 1
+            
+            kstack.append(v)
+        }
+        else if elem == "[" {
+            pstack.append(elem)
+            sstack.append("")
+        }
+        // time to process sstack last value according to k
+        else if elem == "]" {
+            pstack.removeLast()
+            let k = kstack.removeLast()
+            let val = sstack.removeLast()
+            var str = ""
+            for _ in 0..<k {
+                str.append(val)
+            }
+            
+            if !sstack.isEmpty {
+                var top = sstack.removeLast()
+                top.append(str)
+                sstack.append(top)
+            } else {
+                result.append(str)
+            }
+        }
+        // alphabets
+        else {
+            if sstack.count > 0 {
+                sstack[sstack.count-1].append(elem)
+            } else {
+                result.append(elem)
+            }
+        }
+        
+        start += 1
+    }
+    
+    return result
+}
