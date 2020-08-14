@@ -7,28 +7,13 @@ import UIKit
 
 //9/10 test cases solved
 func mergeStrings(s1: String, s2: String) -> String {
+    var result = String()
     let string1 = Array(s1)
     let string2 = Array(s2)
     var index1 = 0
     var index2 = 0
-    var result = String()
-    var count1 = [Character: Int]()
-    var count2 = [Character: Int]()
-    
-    for char in s1 {
-        if let value = count1[char] {
-            count1[char] = value + 1
-        } else {
-            count1[char] = 1
-        }
-    }
-    for char in s2 {
-        if let value = count2[char] {
-            count2[char] = value + 1
-        } else {
-            count2[char] = 1
-        }
-    }
+    let count1 = createDictionary(array: string1)
+    let count2 = createDictionary(array: string2)
     
     while index1 < string1.count && index2 < string2.count {
         if let dict1 = count1[string1[index1]], let dict2 = count2[string2[index2]] {
@@ -56,6 +41,17 @@ func mergeStrings(s1: String, s2: String) -> String {
         result.append(contentsOf: string1[index1..<string1.count])
     }
     return result
+}
+func createDictionary(array: [Character]) -> [Character:Int] {
+    var dict = [Character: Int]()
+    for char in array {
+        if let value = dict[char] {
+            dict[char] = value + 1
+        } else {
+            dict[char] = 1
+        }
+    }
+    return dict
 }
 mergeStrings(s1: "super", s2: "tower")//"stouperwer"
 mergeStrings(s1: "dce", s2: "cccbd")//"dcecccbd"
