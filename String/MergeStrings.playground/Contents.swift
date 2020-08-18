@@ -53,6 +53,6 @@ func createDictionary(array: [Character]) -> [Character:Int] {
     }
     return dict
 }
-mergeStrings(s1: "super", s2: "tower")//"stouperwer"
-mergeStrings(s1: "dce", s2: "cccbd")//"dcecccbd"
-mergeStrings(s1: "ougtaleegvrabhugzyx", s2: "wvieaqgaegbxg")
+//mergeStrings(s1: "super", s2: "tower")//"stouperwer"
+//mergeStrings(s1: "dce", s2: "cccbd")//"dcecccbd"
+mergeStrings(s1: "ougtaleegvrabhugzyx", s2: "wvieaqgaegbxg")//"owvieaqugtaleegvrabhugzyxgaegbxg"
