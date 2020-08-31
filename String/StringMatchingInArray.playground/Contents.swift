@@ -17,42 +17,20 @@ import UIKit
 //Output: []
 
 func stringMatching(_ words: [String]) -> [String] {
-    var results = [String]()
-    var current = words.count - 1
-    var dictionary = [String: [String]]()
+    var set = Set<String>()
     
-    while current >= 0 {
-        for word in words {
-            let value = checkChar(word1: word, word2: words[current])
-            if value == word {
-                if var val = dictionary[words[current]] {
-                    val.append(value)
-                    dictionary[words[current]] = val
-                } else {
-                    dictionary[words[current]] = [value]
-                }
+    for i in 0..<words.count {
+        let word = words[i]
+        for j in i..<words.count - 1 {
+            let string = words[j + 1]
+            if word.contains(string) {
+                set.insert(string)
+            } else if string.contains(word) {
+                set.insert(word)
             }
         }
-        current -= 1
     }
-    for (_, value) in dictionary {
-        results.append(contentsOf: value)
-    }
-    return results
-}
-func checkChar(word1: String, word2: String) -> String {
-    let set1 = Set(word1)
-    let set2 = Set(word2)
-    var value = String()
-    guard word1 != word2 else {
-        return ""
-    }
-    if set1.isSuperset(of: set2) {
-        value = word2
-    } else if set2.isSuperset(of: set1) {
-        value = word1
-    }
-    return value
+    return Array(set)
 }
 stringMatching(["leetcode","et","code"])
 stringMatching(["mass","as","hero","superhero"])
