@@ -23,7 +23,7 @@ func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
         node = current.next
     }
     //2. find the index of stack where stack.count - n == index
-    guard n > stack.count else {
+    guard stack.count > 1 else {
         return nil
     }
     for index in 0..<stack.count {
