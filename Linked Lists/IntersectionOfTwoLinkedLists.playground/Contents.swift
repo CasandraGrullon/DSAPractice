@@ -16,51 +16,53 @@ public class ListNode {
 }
 
 func getIntersectionNode(_ headA: ListNode?, _ headB: ListNode?) -> ListNode? {
-    guard headA != nil || headB != nil else {
-        return nil
-    }
-    var arrayA = [Int]()
-    var arrayB = [Int]()
+    var stackA = [ListNode]()
+    var stackB = [ListNode]()
     
-    var head1 = headA
-    var head2 = headB
+    //1. turn lists into arrays
+    var itr = headA
+    while itr != nil{
+        stackA.append(itr!)
+        itr = itr?.next
+    }
+    itr = headB
+    while itr != nil{
+        stackB.append(itr!)
+        itr = itr?.next
+    }
+    
     var answer: ListNode?
-    
-    while head1 != nil {
-        arrayA.append(head1!.val)
-        head1 = head1?.next
+    while !stackA.isEmpty && !stackB.isEmpty{
+        let A = stackA.removeLast()
+        let B = stackB.removeLast()
+        //print("A: \(A.val), B: \(B.val)")
+        //while a and b are the same, we replace the value of answer
+        if A === B {
+            print("if A: \(A.val), B: \(B.val)")
+            answer = A
+        } else {
+            //once a and b are not the same, we break the loop and return the last value of answer
+            print("else A: \(A.val), B: \(B.val)")
+            print("answer: \(answer?.val)")//8
+            break
+        }
     }
-    while head2 != nil {
-        arrayB.append(head2!.val)
-        head2 = head2?.next
-    }
-    var current = 0
-    var previous = current - 1
-    var next = current + 1
-    var value = Int()
-    
-    if arrayA[current] == arrayB[current] && arrayA[previous] == arrayB[previous] && arrayA[next] == arrayB[next] {
-        value = arrayA[current]
-    } else {
-        current += 1
-    }
-    print(value)
+    print(answer?.val)
     return answer
 }
-
-var listAHead = ListNode(4)
-var a1 = ListNode(1)
-listAHead.next = a1
-var listBhead = ListNode(5)
-var b6 = ListNode(6)
-var b1 = ListNode(1)
-listBhead.next = b6
-b6.next = b1
-var intersection = ListNode(8)
-var int4 = ListNode(4)
-var int5 = ListNode(5)
-intersection.next = int4
+let a = ListNode(4)
+let a1 = ListNode(1)
+let int8 = ListNode(8)
+let int4 = ListNode(4)
+let int5 = ListNode(5)
+let b = ListNode(5)
+let b6 = ListNode(6)
+let b1 = ListNode(1)
+int8.next = int4
 int4.next = int5
-a1.next = intersection
-b1.next = intersection
-getIntersectionNode(listAHead, listBhead)
+a.next = a1
+a1.next = int8
+b.next = b6
+b6.next = b1
+b1.next = int8
+getIntersectionNode(a, b)
