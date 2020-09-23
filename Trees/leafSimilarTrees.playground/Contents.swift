@@ -32,6 +32,7 @@ func leafSimilar(_ root1: TreeNode?, _ root2: TreeNode?) -> Bool {
     return array1 == array2
     //better solution instead of returning an array return one leaf at a time and compare
 }
+//leetcode solution
 func leafArray(root: TreeNode?) -> [Int] {
     var result = [Int]()
     
@@ -48,6 +49,7 @@ func leafArray(root: TreeNode?) -> [Int] {
     
     return result
 }
+//swift solution
 extension TreeNode {
     func leafArray() -> [Int] {
         var result = [Int]()
