@@ -27,20 +27,37 @@ func sortedArrayToBST(_ nums: [Int]) -> TreeNode? {
     //let sortedArray = nums
     //1. assign the root
     //BST have left < root < right
-    let middleIndex = nums.count / 2
-    let root = TreeNode(nums[middleIndex])
     
-    if middleIndex != 0 {
-        let leftSubTree = sortedArrayToBST(Array(nums[0..<middleIndex]))
-        root.left = leftSubTree
+    //MARK:- solution works on playgrounds but not on leetcode
+//    let middleIndex = nums.count / 2
+//    let root = TreeNode(nums[middleIndex])
+//
+//    if middleIndex > 0 {
+//        let leftSubTree = sortedArrayToBST(Array(nums[0..<middleIndex]))
+//        root.left = leftSubTree
+//    }
+//
+//    if (middleIndex + 1) < nums.count {
+//        let rightSubTree = sortedArrayToBST(Array(nums[middleIndex+1..<nums.count]))
+//        root.right = rightSubTree
+//    }
+//
+//    return root
+    //MARK:- Leetcode solution
+    return arrayToBST(nums: nums, left: 0, right: nums.count - 1)
+}
+private func arrayToBST(nums: [Int], left: Int, right: Int) -> TreeNode? {
+    if left > right { return nil }
+
+    if left == right {
+        return TreeNode(nums[left])
+    } else {
+        let mid = (left + right) / 2
+        let node = TreeNode(nums[mid])
+        node.left = arrayToBST(nums: nums, left: left, right: mid - 1)
+        node.right = arrayToBST(nums: nums, left: mid + 1, right: right)
+        return node
     }
-    
-    if (middleIndex + 1) < nums.count {
-        let rightSubTree = sortedArrayToBST(Array(nums[middleIndex+1..<nums.count]))
-        root.right = rightSubTree
-    }
-    
-    return root
 }
 extension TreeNode {
     func inOrderTraversal(visit: (TreeNode) -> ()) {
