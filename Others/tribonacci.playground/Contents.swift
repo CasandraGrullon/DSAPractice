@@ -19,3 +19,17 @@ import UIKit
 }
 
 tribonacci(8)
+// my code is in Swift, I currently only know this language
+func decodeNumbers(_ n: Int, _ map: [String: Int]) {
+  var count = Int()
+    var subNumber = [String]()
+    
+    for (_, value) in map.sorted(by: {$0.value < $1.value}) {
+      if String(n).contains(String(value)) {
+        subNumber.append(String(value))
+      }
+    }
+    count += subNumber.count
+    print(count)
+}
+decodeNumbers(12, ["A": 1, "B":2, "C": 3, "D": 22, "L": 12])
