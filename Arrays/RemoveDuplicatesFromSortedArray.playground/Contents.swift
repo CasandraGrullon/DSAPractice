@@ -47,3 +47,4 @@ func removeDuplicates(_ nums: inout [Int]) -> Int {
 }
 var nums2 = [1,1,1,2,2,3]//5
 removeDuplicates(&nums2)
+
